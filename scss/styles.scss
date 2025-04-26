@@ -1,45 +1,50 @@
 /*!
     Title: Dev Portfolio Template
     Version: 1.2.2
-    Last Change: 03/25/2020
-    Author: Ryan Fitzgerald
+    Last Change: 04/25/2025
+    Original Author: Ryan Fitzgerald
+    Updated By: Chanteria Milner
     Repo: https://github.com/RyanFitzgerald/devportfolio-template
     Issues: https://github.com/RyanFitzgerald/devportfolio-template/issues
 
     Description: This file contains all the styles associated with the page
     that don't come from third party libraries. This file gets compiled using
-    Gulp and send to the /css folder which is then loaded on the page.
+    Gulp and sent to the /css folder which is then loaded on the page.
 */
+
 /*
     File Contents:
 
         1. Variables
         2. Mixins
         3. Global Styles
-        4. Lead Styles
-        5. About Styles
-        6. Experience Styles
-        7. Education Styles
-        8. Project Styles
-        9. Presentation Styles
-        10. Skills Styles
-        11. Contact Styles
-        12. Optional Section Styles
-        13. Media Queries
+            - Base Typography
+            - Buttons
+            - Headers & Navigation
+            - Footer
+            - Misc Utilities (Shadows, etc.)
+        4. Section Styles
+            - Lead
+            - About
+            - Experience
+            - Education
+            - Projects
+            - Presentations
+            - Skills
+            - Contact
+            - Random
+            - Optional Section
+        5. Media Queries
 */
 
-/*
-    ------------------------
-    ----- 1. Variables -----
-    ------------------------
-*/
+/* ------------------------
+   1. Variables
+------------------------- */
 @use "sass:color";
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Lato:wght@400;700&display=swap');
 
-// Define border colors
+// Define colors
 $border: #dcd9d9;
-
-// Brand Colors
 $cream: #F2EFEA;
 $burnt-orange: #BA3F1D;
 $deep-plum: #33032F;
@@ -49,7 +54,7 @@ $forest-green: #254441;
 $font-header: "Noto Sans Mono", monospace;
 $font-body: "Funnel Display", sans-serif;
 
-// update existing variables
+// Update variables
 $base-color: $burnt-orange;
 $base-color-hover: color.adjust($forest-green, $lightness: -10%);
 $heading: $deep-plum;
@@ -58,46 +63,33 @@ $background: $cream;
 $header-background: $forest-green;
 $background-alt: color.adjust($cream, $lightness: 3%);
 
-/*
-    ---------------------
-    ----- 2. Mixins -----
-    ---------------------
-*/
-
+/* ------------------------
+   2. Mixins
+------------------------- */
 @mixin transition($duration: 0.5s, $func: ease, $property: all) {
     transition: #{$duration} #{$func} #{$property};
 }
 
 @mixin placeholder {
-    &::-webkit-input-placeholder {
-        @content;
-    }
-
-    &:-moz-placeholder {
-        @content;
-        opacity: 1;
-    }
-
-    &::-moz-placeholder {
-        @content;
-        opacity: 1;
-    }
-
-    &:-ms-input-placeholder {
-        @content;
-    }
+    &::-webkit-input-placeholder { @content; }
+    &:-moz-placeholder { @content; opacity: 1; }
+    &::-moz-placeholder { @content; opacity: 1; }
+    &:-ms-input-placeholder { @content; }
 }
 
-/*
-    ----------------------------
-    ----- 3. Global Styles -----
-    ----------------------------
-*/
+/* ------------------------
+   3. Global Styles
+------------------------- */
+/* Base Typography */
 body {
     font-family: $font-body;
     font-size: 16px;
     background-color: $forest-green;
     color: $text;
+    &.active {
+        overflow: hidden;
+        z-index: -1;
+    }
 }
 
 p {
@@ -111,32 +103,112 @@ h1, h2, h3, h4, h5, h6 {
 
 a {
     color: $base-color;
-}
-
-a:hover {
-    color: color.adjust($forest-green, $lightness: 10%);
-    text-decoration: underline;
-}
-
-body {
-    font-family: 'Lato', sans-serif;
-    font-size: 16px;
-
-    &.active {
-        overflow: hidden;
-        z-index: -1;
+    &:hover {
+        color: color.adjust($forest-green, $lightness: 10%);
+        text-decoration: underline;
     }
 }
 
-@keyframes dropHeader {
-  0% {
-    transform: translateY(-100%);
-  }
-  100% {
-    transform: translateY(0);
-  }
+/* Buttons */
+.btn-rounded-base {
+    display: inline-block;
+    color: $cream;
+    padding: 15px 25px;
+    border: 3px solid $base-color;
+    border-radius: 15px;
+    background-color: $base-color;
+    @include transition();
+
+    &:hover {
+        color: $cream;
+        background: color.adjust($base-color, $lightness: 30%);
+        text-decoration: none;
+    }
+}
+.btn-brand {
+    display: inline-block;
+    background-color: $burnt-orange;
+    color: $cream;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 30px;
+    font-family: $font-body;
+    font-weight: bold;
+    text-decoration: none;
+    @include transition();
+  
+    &:hover {
+      background-color: $deep-plum;
+      color: $cream;
+    }
 }
 
+/* Shadows */
+.shadow {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.shadow-large {
+    box-shadow: 0 3px 6px rgba(0,0,0,0.08), 0 3px 6px rgba(0,0,0,0.15);
+}
+
+/* Misc Utilities */
+.heading {
+    position: relative;
+    display: inline-block;
+    font-size: 2em;
+    font-weight: 300;
+    margin: 0 0 30px 0;
+
+    &:after {
+        position: absolute;
+        content: '';
+        top: 100%;
+        height: 1px;
+        width: 50px;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        background: $base-color;
+    }
+}
+.page-heading {
+    position: relative;
+    display: inline-block;
+    margin-top: 2rem;
+    background-color: $cream;
+    width: 100%;
+
+    h1 {
+        padding-top: 2rem;
+        font-size: 4em;
+        font-weight: 300;
+        margin-bottom: 0;
+        text-align: center;
+
+        &:after {
+            position: absolute;
+            content: '';
+            top: 100%;
+            height: 1px;
+            width: 50px;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            background: $base-color;
+        }
+    }
+}
+.page-subheading {
+    background-color: $cream;
+    width: 100%;
+    padding-top: 2rem;
+}
+.background-alt {
+    background: $background-alt;
+}
+
+/* Headers & Navigation */
 header {
     position: absolute;
     top: 0;
@@ -144,10 +216,9 @@ header {
     right: 0;
     text-align: center;
     z-index: 10;
-    animation-name: dropHeader;
-    animation-iteration-count: 1;
-    animation-timing-function: ease;
-    animation-duration: 0.75s;
+    display: flex;
+    flex-direction: row;
+    background-color: #254441;
 
     ul {
         background: $header-background;
@@ -157,6 +228,8 @@ header {
         border-bottom-right-radius: 4px;
         border-bottom-left-radius: 4px;
         border-radius: 0;
+        position: sticky;
+        left: 39%;
     }
 
     li {
@@ -199,6 +272,23 @@ header {
     }
 }
 
+.logo {
+    img {
+        vertical-align: middle;
+        width: 9rem;
+        left: 0%;
+        position: relative;
+        justify-content: left;
+        display: grid;
+        padding-top: 0.5rem;
+        margin-left: 1rem;
+    }
+
+    a:hover {
+        background: none;
+    }
+}
+
 #menu {
     &.active {
         display: block;
@@ -216,7 +306,6 @@ header {
     z-index: 20;
     padding: 0 7px;
     border-radius: 4px;
-    background: $background;
 }
 
 #mobile-menu-close {
@@ -240,12 +329,12 @@ header {
     }
 }
 
+/* Footer */
 footer {
     padding: 20px 0;
     background: $header-background;
     color: $cream;
 }
-
 .copyright {
     padding-top: 20px;
 
@@ -254,7 +343,6 @@ footer {
         color: $cream;
     }
 }
-
 .top {
     text-align: center;
 
@@ -273,7 +361,6 @@ footer {
         color: $text;
     }
 }
-
 .social {
     text-align: right;
 
@@ -299,112 +386,9 @@ footer {
     }
 }
 
-.btn-rounded-base {
-    display: inline-block;
-    color: $cream;
-    padding: 15px 25px;
-    border: 3px solid $base-color;
-    border-radius: 15px;
-    background-color: $base-color;
-    @include transition();
-
-    &:hover {
-        color: $cream;
-        background: color.adjust($base-color, $lightness: 30%);
-        text-decoration: none;
-    }
-}
-
-.btn-brand {
-    display: inline-block;
-    background-color: $burnt-orange;
-    color: $cream;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 30px;
-    font-family: $font-body;
-    font-weight: bold;
-    text-decoration: none;
-    @include transition();
-  
-    &:hover {
-      background-color: $deep-plum;
-      color: $cream;
-    }
-  }
-
-.shadow {
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-}
-
-.shadow-large {
-    box-shadow: 0 3px 6px rgba(0,0,0,0.08), 0 3px 6px rgba(0,0,0,0.15);
-}
-
-.heading {
-    position: relative;
-    display: inline-block;
-    font-size: 2em;
-    font-weight: 300;
-    margin: 0 0 30px 0;
-
-    &:after {
-        position: absolute;
-        content: '';
-        top: 100%;
-        height: 1px;
-        width: 50px;
-        left: 0;
-        right: 0;
-        margin: 0 auto;
-        background: $base-color;
-    }
-}
-
-.page-heading {
-    position: relative;
-    display: inline-block;
-    margin-top: 2rem;
-    background-color: $cream;
-    width: 100%;
-
-    h1 {
-        padding-top: 2rem;
-        font-size: 4em;
-        font-weight: 300;
-        margin-bottom: 0;
-        text-align: center;
-
-        &:after {
-            position: absolute;
-            content: '';
-            top: 100%;
-            height: 1px;
-            width: 50px;
-            left: 0;
-            right: 0;
-            margin: 0 auto;
-            background: $base-color;
-        }
-    }
-}
-
-.page-subheading {
-    background-color: $cream;
-    width: 100%;
-    padding-top: 2rem;
-}
-
-.background-alt {
-    background: $background-alt;
-}
-
-/*
-    --------------------------
-    ----- 4. Lead Styles -----
-    --------------------------
-*/
-
+/* ------------------------
+   4. Section Styles
+------------------------- */
 #lead {
     position: relative;
     min-height: 400px;
@@ -414,7 +398,6 @@ footer {
     background-color: $cream;
     margin-top: 5rem;
 }
-
 #lead-content {
     position: absolute;
     z-index: 10;
@@ -443,7 +426,6 @@ footer {
         margin-bottom: 15px;
     }
 }
-
 @keyframes pulsate {
     0% {
         transform: scale(1, 1);
@@ -458,12 +440,7 @@ footer {
     }
 }
 
-/*
-    ---------------------------
-    ----- 5. About Styles -----
-    ---------------------------
-*/
-
+/* About Section */
 #about {
     display: flex;
     align-items: center;
@@ -510,12 +487,7 @@ footer {
     }
 }
 
-/*
-    --------------------------------
-    ----- 6. Experience Styles -----
-    --------------------------------
-*/
-
+/* Experience Section */
 #experiences {
     padding: 0 15px;
     text-align: center;
@@ -528,7 +500,6 @@ footer {
         margin: 3rem 0 0 0;
     }
 }
-
 #experience {
     margin: 30px auto 0 auto;
     position: relative;
@@ -562,20 +533,13 @@ footer {
         font-size: 1.65rem;
     }
 }
-
 .experience-list {
     width: 80%;
     margin-left: auto;
     margin-right: auto;
 }
 
-
-/*
-    -------------------------------
-    ----- 7. Education Styles -----
-    -------------------------------
-*/
-
+/* Education Section */
 #education {
     padding: 50px 15px 20px 15px;
     text-align: center;
@@ -586,7 +550,6 @@ footer {
         margin-bottom: 50px;
     }
 }
-
 .education-block {
     width: 500px;
     padding: 15px;
@@ -624,12 +587,7 @@ footer {
     }
 }
 
-/*
-    -------------------------------
-    ----- 8. Project Styles -----
-    -------------------------------
-*/
-
+/* Projects Section */
 #projects {
     padding: 50px 15px;
     text-align: center;
@@ -640,7 +598,6 @@ footer {
         margin-bottom: 50px;
     }
 }
-
 .project {
     position: relative;
     max-width: 300px;
@@ -648,7 +605,6 @@ footer {
     background: color.adjust($cream, $lightness: 5%);
     border-radius: 4px;
 }
-
 .project-info {
     position: relative;
     padding: 15px;
@@ -666,7 +622,6 @@ footer {
         font-size: 0.9em;
     }
 }
-
 .no-image {
     .project-info {
         position: relative;
@@ -675,16 +630,11 @@ footer {
         transform: none;
     }
 }
-
 #more-projects {
     display: none;
 }
 
-/*
-    ---------------------------------------
-    ----- 9. Presentation Styles -----
-    ---------------------------------------
-*/
+/* Presentations Section */
 #presentations {
     padding: 50px 15px;
     text-align: center;
@@ -706,51 +656,45 @@ footer {
         color: $base-color;
     }
 }
-
 .presentation {
     position: relative;
     max-width: 700px;
     margin: 0 auto 40px auto;
     padding: 10px 0;
     text-align: left;
-}
 
+    p {
+        font-size: 0.95em;
+        color: #74808a;
+        margin: 10px 0 0 0;
+    }
+}
 .presentation-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 5px;
-}
 
-.presentation-header h3 {
-    font-size: 1.5em;
-    font-weight: 500;
-    margin: 0;
-    color: #374054;
-}
+    h3 {
+        font-size: 1.5em;
+        font-weight: 500;
+        margin: 0;
+        color: #374054;
+    }
 
-.presentation-header .presentation-info {
-    font-size: 1em;
-    color: #74808a;
+    .presentation-info {
+        font-size: 1em;
+        color: #74808a;
+    }
 }
-
 .presentation-info {
     text-align: right;
     width: 23rem;
 }
-
 .presentation-icon-block {
     text-align: right;
     width: 5rem;
 }
-
-
-.presentation p {
-    font-size: 0.95em;
-    color: #74808a;
-    margin: 10px 0 0 0;
-}
-
 .presentation-icon {
     font-size: 1.6em;
     position: relative;
@@ -758,13 +702,7 @@ footer {
     left: -20px;
 }
 
-
-/*
-    -------------------------------
-    ----- 10. Skills Styles -----
-    -------------------------------
-*/
-
+/* Skills Section */
 #skills {
     padding: 50px 15px;
     text-align: center;
@@ -794,12 +732,7 @@ footer {
     }
 }
 
-/*
-    -------------------------------
-    ----- 11. Contact Styles -----
-    -------------------------------
-*/
-
+/* Contact Section */
 #contact {
     padding: 50px 15px;
     background: $cream;
@@ -823,7 +756,6 @@ footer {
         font-size: 1.75rem;
     }
 }
-
 #contact-form {
     max-width: 700px;
     margin: 0 auto;
@@ -871,12 +803,7 @@ footer {
     }
 }
 
-/*
-    -------------------------------
-    ----- 11. Random Styles -----
-    -------------------------------
-*/
-
+/* Random Section */
 #random {
     background-color: $cream;
 
@@ -982,15 +909,10 @@ footer {
             }
           }
         }
-      }
+    }
 }
 
-/*
-    ---------------------------------------
-    ----- 12. Optional Section Styles -----
-    ---------------------------------------
-*/
-
+/* Optional Section */
 .optional-section {
     padding: 50px 15px;
     text-align: center;
@@ -1000,7 +922,6 @@ footer {
         color: $heading;
     }
 }
-
 .optional-section-block {
     max-width: 700px;
     margin: 0 auto 30px auto;
@@ -1033,13 +954,10 @@ footer {
     }
 }
 
-/*
-    -----------------------------
-    ----- 13. Media Queries -----
-    -----------------------------
-*/
-
-// Medium Devices
+/* ------------------------
+   5. Media Queries
+------------------------- */
+/* Medium Devices (max-width: 992px) */
 @media only screen and (max-width : 992px) {
 
     #lead {
@@ -1085,10 +1003,9 @@ footer {
             justify-content: center;
         }
     }
-
 }
 
-// Small Devices
+/* Small Devices (max-width: 768px) */
 @media only screen and (max-width : 768px) {
 
     header {
@@ -1200,10 +1117,9 @@ footer {
             width: 75%
         }
     }
-
 }
 
-// Extra Small Devices
+/* Extra Small Devices (max-width: 480px) */
 @media only screen and (max-width : 480px) {
 
     #lead-content {
@@ -1224,5 +1140,4 @@ footer {
     .col-md-8 {
         text-align: center;
     }
-
 }
